@@ -37,4 +37,10 @@ describe('numberToString', () => {
     expect(uut.numberToString(18)).toEqual('eighteen')
     expect(uut.numberToString(19)).toEqual('nineteen')
   })
+
+  it('can handle numbers less than 1000', () => {
+    expect(uut.numberToString(100)).toEqual('one hundred')
+    expect(uut.numberToString(211)).toEqual('two hundred eleven')
+    expect(uut.numberToString(322)).toEqual('three hundred twenty two')
+  })
 })
