@@ -1,26 +1,73 @@
 function numberToString(number) {
-  switch (number) {
+  let string = ''
+
+  if (number === 0) { return 'zero' }
+
+  switch (Math.floor(number / 10)) {
     case 0:
-      return 'zero'
+      break
     case 1:
-      return 'one'
+      string += 'ten'
+      break
     case 2:
-      return 'two'
+      string += 'twenty'
+      break;
     case 3:
-      return 'three'
+      string += 'thirty'
+      break
     case 4:
-      return 'four'
+      string += 'fourty'
+      break
     case 5:
-      return 'five'
+      string += 'fifty'
+      break
     case 6:
-      return 'six'
+      string += 'sixty'
+      break
     case 7:
-      return 'seven'
+      string += 'seventy'
+      break
     case 8:
-      return 'eight'
+      string += 'eighty'
+      break
     case 9:
-      return 'nine'
+      string += 'ninety'
+      break
   }
+
+  switch (number % 10) {
+    case 0:
+      break
+    case 1:
+      string += ' one'
+      break
+    case 2:
+      string += ' two'
+      break
+    case 3:
+      string += ' three'
+      break
+    case 4:
+      string += ' four'
+      break
+    case 5:
+      string += ' five'
+      break
+    case 6:
+      string += ' six'
+      break
+    case 7:
+      string += ' seven'
+      break
+    case 8:
+      string += ' eight'
+      break
+    case 9:
+      string += ' nine'
+      break
+  }
+
+  return string.trim()
 }
 
 module.exports = { numberToString } 
