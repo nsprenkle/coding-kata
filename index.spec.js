@@ -25,4 +25,16 @@ describe('numberToString', () => {
     expect(uut.numberToString(88)).toEqual('eighty eight')
     expect(uut.numberToString(99)).toEqual('ninety nine')
   })
+
+  it('can handle special cases: teens', () => {
+    expect(uut.numberToString(11)).toEqual('eleven')
+    expect(uut.numberToString(12)).toEqual('twelve')
+    expect(uut.numberToString(13)).toEqual('thirteen')
+    expect(uut.numberToString(14)).toEqual('fourteen')
+    expect(uut.numberToString(15)).toEqual('fifteen')
+    expect(uut.numberToString(16)).toEqual('sixteen')
+    expect(uut.numberToString(17)).toEqual('seventeen')
+    expect(uut.numberToString(18)).toEqual('eighteen')
+    expect(uut.numberToString(19)).toEqual('nineteen')
+  })
 })
