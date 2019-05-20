@@ -18,7 +18,7 @@ describe('numberToString', () => {
     expect(uut.numberToString(10)).toEqual('ten')
     expect(uut.numberToString(22)).toEqual('twenty two')
     expect(uut.numberToString(33)).toEqual('thirty three')
-    expect(uut.numberToString(44)).toEqual('fourty four')
+    expect(uut.numberToString(44)).toEqual('forty four')
     expect(uut.numberToString(55)).toEqual('fifty five')
     expect(uut.numberToString(66)).toEqual('sixty six')
     expect(uut.numberToString(77)).toEqual('seventy seven')
