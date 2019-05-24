@@ -43,4 +43,10 @@ describe('numberToString', () => {
     expect(uut.numberToString(211)).toEqual('two hundred eleven')
     expect(uut.numberToString(322)).toEqual('three hundred twenty two')
   })
+
+  it('can handle higher order magnitudes', () => {
+    expect(uut.numberToString(2001)).toEqual('two thousand one')
+    expect(uut.numberToString(16534)).toEqual('sixteen thousand five hundred thirty four')
+    expect(uut.numberToString(123456)).toEqual('one hundred twenty three thousand four hundred fifty six')
+  })
 })
