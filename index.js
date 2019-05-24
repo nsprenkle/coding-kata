@@ -1,11 +1,11 @@
 const ONES = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
 const TENS = ['', 'ten', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety']
 const TEENS = ['', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen']
-const MAGNITUEDS = ['', 'thousand']
+const MAGNITUEDS = ['', 'thousand', 'million', 'billion']
 
 function numberToString(number) {
   let stringElements = []
-  let magnitude = 1000
+  let magnitudeIndex = 0
   let partialNumber = 0
 
   // handle zero
@@ -13,20 +13,21 @@ function numberToString(number) {
     return 'zero'
   }
 
-  // get the partial (within 1000) for processing
-  partialNumber = number % 1000
-  stringElements.unshift(...handleMagnitude(partialNumber))
-
   // process the next order of magnitude
-  number = Math.floor(number / 1000)
-  if(number > 0) {
+  while (number > 0) {
     partialNumber = number % 1000
-    stringElements.unshift('thousand')
-    stringElements.unshift(...handleMagnitude(partialNumber))
+
+    if (partialNumber !== 0) {
+      stringElements.unshift(MAGNITUEDS[magnitudeIndex])
+      stringElements.unshift(...handleMagnitude(partialNumber))
+    }
+
+    number = Math.floor(number / 1000)
+    magnitudeIndex++
   }
 
   // post-process
-  return stringElements.filter(val => { return val.length > 0 }).join(' ').trim()
+  return stringElements.filter(val => { return val && val.length > 0 }).join(' ').trim()
 }
 
 function handleMagnitude(number) {

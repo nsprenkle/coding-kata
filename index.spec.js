@@ -45,8 +45,15 @@ describe('numberToString', () => {
   })
 
   it('can handle higher order magnitudes', () => {
+    // thousands
     expect(uut.numberToString(2001)).toEqual('two thousand one')
     expect(uut.numberToString(16534)).toEqual('sixteen thousand five hundred thirty four')
     expect(uut.numberToString(123456)).toEqual('one hundred twenty three thousand four hundred fifty six')
+
+    // millions
+    expect(uut.numberToString(1000000)).toEqual('one million')
+
+    // billions
+    expect(uut.numberToString(314159265858)).toEqual('three hundred fourteen billion one hundred fifty nine million two hundred sixty five thousand eight hundred fifty eight')
   })
 })
