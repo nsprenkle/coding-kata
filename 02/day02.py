@@ -1,29 +1,32 @@
-def runIntcodeProgram(intcode):
+def runProgram(mem):
 
-    index = 0
+    ip = 0
 
-    while(index < len(intcode)):
-        opcode = intcode[index]
+    while(ip < len(mem)):
+        opcode = mem[ip]
 
-        print('next input: {}'.format(intcode[index:index+4]))
+        # print('next input: {}'.format(mem[ip:ip+4]))
 
         if opcode == 99:
-            print('halting: {}'.format(index))
+            # print('halting: {}'.format(ip))
             break
 
-        in1 = intcode[index + 1]
-        in2 = intcode[index + 2]
-        out = intcode[index + 3]
-
         if opcode == 1:
-            intcode[out] = intcode[in1] + intcode[in2]
+            a = mem[ip + 1]
+            b = mem[ip + 2]
+            out = mem[ip + 3]
+            mem[out] = mem[a] + mem[b]
+            ip +=4
         if opcode == 2:
-            intcode[out] = intcode[in1] * intcode[in2]
-        index +=4
+            a = mem[ip + 1]
+            b = mem[ip + 2]
+            out = mem[ip + 3]
+            mem[out] = mem[a] * mem[b]
+            ip +=4
 
-        print('new index: {}\t{}'.format(index,intcode))
+        # print('new address: {}\t{}'.format(ip,mem))
 
-    return intcode
+    return mem
 
 
 def readIntcodeProgramFromFile(file):
@@ -40,15 +43,31 @@ def readIntcodeProgramFromFile(file):
 
 
 def main():
-    intcode = readIntcodeProgramFromFile('input.txt')
+    initialState = readIntcodeProgramFromFile('input.txt')
 
-    # correct inputs
-    intcode[1] = 12
-    intcode[2] = 2
+    targetOutput = 19690720
 
-    result = runIntcodeProgram(intcode)
+    for a in range(0, 100):
+        for b in range(0, 100):
+            result = tryInputs(initialState, a, b)
+            print("a: {}, b: {}, result: {}".format(a,b,result))
+            if result == targetOutput:
+                return (a, b)
+                # Solution a: 52, b: 96, result: 19690720
 
-    print(result)
+
+def tryInputs(initialState, a, b):
+    stateCopy = []
+
+    for address in initialState:
+        stateCopy.append(address)
+
+    stateCopy[1] = a
+    stateCopy[2] = b
+
+    result = runProgram(stateCopy)
+
+    return result[0]
 
 
 def test():
@@ -61,7 +80,7 @@ def test():
     tests = [test1, test2, test3, test4]
 
     for test in tests:
-        result = runIntcodeProgram(test[0])
+        result = runProgram(test[0])
         expected = test[1]
 
         if(result != expected):
