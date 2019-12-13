@@ -1,6 +1,6 @@
 def calc_path_coordinates(legs):
     """ determine a coordinate set for a path """
-    coordinate_set = set()
+    path_coordinates = []
 
     x = 0
     y = 0
@@ -10,26 +10,21 @@ def calc_path_coordinates(legs):
         direction = leg[0].upper()
         magnitude = int(leg[1:])
 
-        if direction == 'R':
-            for step in range(0, magnitude):
+        for _ in range(0, magnitude):
+            if direction == 'R':
                 x += 1
-                coordinate_set.add((x, y))
-        elif direction == 'L':
-            for step in range(0, magnitude):
+            elif direction == 'L':
                 x -= 1
-                coordinate_set.add((x, y))
-        elif direction == 'U':
-            for step in range(0, magnitude):
+            elif direction == 'U':
                 y += 1
-                coordinate_set.add((x, y))
-        elif direction == 'D':
-            for step in range(0, magnitude):
+            elif direction == 'D':
                 y -= 1
-                coordinate_set.add((x, y))
-        else:
-            raise Exception('bad direction')
+            else:
+                raise Exception('bad direction')
 
-    return coordinate_set
+            path_coordinates.append((x, y))
+
+    return path_coordinates
 
 
 def main(path1=None, path2=None, file=None):
@@ -42,16 +37,17 @@ def main(path1=None, path2=None, file=None):
     coordinates2 = calc_path_coordinates(path2)
 
     # find intersection points
-    intersections = coordinates1.intersection(coordinates2)
+    intersections = list(filter(lambda x: x in coordinates1, coordinates2))
 
-    manhattan_distances = []
+    path_distances = []
 
-    # find Manhattan distances
+    # find path distances to intersection points
     for intersection in intersections:
-        manhattan_distances.append(abs(intersection[0]) + abs(intersection[1]))
+        path_distances.append(coordinates1.index(
+            intersection) + coordinates2.index(intersection))
 
-    # return minimum manhattan distance
-    return min(manhattan_distances)
+    # return minimum steps + 2 offset, one for each wire
+    return min(path_distances) + 2
 
 
 def read_file(file):
