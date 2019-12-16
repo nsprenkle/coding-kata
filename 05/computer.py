@@ -1,6 +1,7 @@
 def run(mem, input=None):
 
     ip = 0
+    output = None
 
     while(ip < len(mem)):
         # normalize and parse instruction
@@ -24,9 +25,9 @@ def run(mem, input=None):
         # a = mem[ip + 1] if mode_a == 1 else mem[mem[ip + 1]]
         # b = mem[ip + 2] if mode_b == 1 else mem[mem[ip + 2]]
 
-        arg_1 = mem[ip + 1]
-        arg_2 = mem[ip + 2]
-        arg_3 = mem[ip + 3]
+        arg_1 = mem[ip + 1] if ip + 1 < len(mem) else None
+        arg_2 = mem[ip + 2] if ip + 2 < len(mem) else None
+        arg_3 = mem[ip + 3] if ip + 3 < len(mem) else None
 
         # add
         if opcode == 1:
@@ -49,6 +50,28 @@ def run(mem, input=None):
         elif opcode == 4:
             output = arg_1 if mode_1 == 1 else mem[arg_1]
             ip += 2
+        # jump-if-true
+        elif opcode == 5:
+            val_1 = arg_1 if mode_1 == 1 else mem[arg_1]
+            val_2 = arg_2 if mode_2 == 1 else mem[arg_2]
+            ip = val_2 if val_1 != 0 else ip + 3
+        # jump-if-false
+        elif opcode == 6:
+            val_1 = arg_1 if mode_1 == 1 else mem[arg_1]
+            val_2 = arg_2 if mode_2 == 1 else mem[arg_2]
+            ip = val_2 if val_1 == 0 else ip + 3
+        # less than
+        elif opcode == 7:
+            val_1 = arg_1 if mode_1 == 1 else mem[arg_1]
+            val_2 = arg_2 if mode_2 == 1 else mem[arg_2]
+            mem[arg_3] = 1 if val_1 < val_2 else 0
+            ip += 4
+        # equals
+        elif opcode == 8:
+            val_1 = arg_1 if mode_1 == 1 else mem[arg_1]
+            val_2 = arg_2 if mode_2 == 1 else mem[arg_2]
+            mem[arg_3] = 1 if val_1 == val_2 else 0
+            ip += 4
         else:
             raise Exception('Bad opcode {} at ip {}\n'.format(opcode, ip, mem))
 
@@ -72,7 +95,7 @@ def day_05():
     file = '/Users/nsprenkle/Development/sandbox/adventofcode/05/day_05_input.txt'
     initial_state = intcode_from_file(file)
 
-    output = run(initial_state, input=1)
+    output = run(initial_state, input=5)
     print('Output: {}'.format(output))
 
 
