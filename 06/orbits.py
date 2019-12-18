@@ -45,12 +45,45 @@ def count_orbits(tree, node, depth=0):
     return orbit_count
 
 
+def path_to(orbital_tree, node, destination, current_path=[]):
+
+    # if we've reached our destination, return the path, less the destination node
+    if node == destination:
+        current_path.pop()
+        print('Path found to {}: {}'.format(destination, current_path))
+        return current_path
+
+    # traverse the orbital tree
+    if node in orbital_tree:
+
+        for orbit in orbital_tree[node]:
+            path = path_to(orbital_tree, orbit,
+                           destination, current_path + [orbit])
+
+            if path:
+                return path
+
+
+def orbital_transfers(orbital_tree, start, destination, com='COM'):
+    path_1 = path_to(orbital_tree, com, start)
+    path_2 = path_to(orbital_tree, com, destination)
+
+    # find orbits unique to a/b
+    transfers = set(path_1) ^ set(path_2)
+
+    return len(transfers)
+
+
 def main():
     orbits = injest('input.txt')
     tree = build_tree(orbits)
 
-    checksum = count_orbits(tree, "COM")
-    print('Checksum: {}'.format(checksum))
+    # Part 01
+    # checksum = count_orbits(tree, "COM")
+    # print('Checksum: {}'.format(checksum))
+
+    # Part 02
+    print('Transfers: {}'.format(orbital_transfers(tree, 'YOU', 'SAN')))
 
 
 if __name__ == "__main__":
