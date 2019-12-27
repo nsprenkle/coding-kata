@@ -1,0 +1,15 @@
+{
+    "name": "number-string",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "jest"
+    },
+    "author": "Nathan Sprenkle",
+    "license": "GPL-3.0",
+    "devDependencies": {
+        "@types/jest": "^24.0.13",
+        "jest": "^24.8.0"
+    }
+}
