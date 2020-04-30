@@ -1,3 +1,6 @@
+# ===== General =====
+.DS_Store
+
 # ===== JavaScript =====
 # Logs
 logs
